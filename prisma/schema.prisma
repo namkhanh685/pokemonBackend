@@ -6,3 +6,57 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationship with favorite Pokémon
+  favorites UserFavoritePokemon[]
+
+  @@map("users")
+}
+
+model Pokemon {
+  id         Int     @id
+  name       String
+  type1      String
+  type2      String?
+  total      Int
+  hp         Int
+  attack     Int
+  defense    Int
+  spAttack   Int
+  spDefense  Int
+  speed      Int
+  generation Int
+  legendary  Boolean @default(false)
+  image      String?
+  ytbUrl     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationship with user favorites
+  favoritedBy UserFavoritePokemon[]
+
+  @@map("pokemon")
+}
+
+model UserFavoritePokemon {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  pokemonId Int
+  createdAt DateTime @default(now())
+
+  // Relationships
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pokemon Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+
+  // Ensure a user can only favorite a Pokémon once
+  @@unique([userId, pokemonId])
+  @@map("user_favorite_pokemon")
+}
