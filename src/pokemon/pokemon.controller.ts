@@ -48,7 +48,6 @@ export class PokemonController {
   }
 
   @Post('import')
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   async importPokemon(@UploadedFile() file: Express.Multer.File): Promise<ApiResponse<any>> {
     if (!file) {

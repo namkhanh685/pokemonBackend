@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { GetPokemonListDto } from './dto/pokemon.dto';
 import { PaginatedResponse } from '../common/interfaces/response.interface';
 import * as Papa from 'papaparse';
@@ -8,7 +12,9 @@ import { PrismaService } from 'src/database/prisma.service';
 export class PokemonService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getPokemonList(query: GetPokemonListDto): Promise<PaginatedResponse<any>> {
+  async getPokemonList(
+    query: GetPokemonListDto,
+  ): Promise<PaginatedResponse<any>> {
     const {
       page = 1,
       limit = 20,
@@ -19,6 +25,8 @@ export class PokemonService {
       legendary,
       sortBy = 'id',
       sortOrder = 'asc',
+      minSpeed,
+      maxSpeed,
     } = query;
 
     const skip = (page - 1) * Number(limit);
@@ -53,6 +61,12 @@ export class PokemonService {
 
     if (legendary !== undefined) {
       where.legendary = legendary;
+    }
+
+    if (minSpeed !== undefined || maxSpeed !== undefined) {
+      where.speed = {};
+      if (minSpeed !== undefined) where.speed.gte = minSpeed;
+      if (maxSpeed !== undefined) where.speed.lte = maxSpeed;
     }
 
     // Build orderBy
@@ -136,7 +150,9 @@ export class PokemonService {
     return pokemon;
   }
 
-  async importPokemonFromCsv(csvContent: string): Promise<{ imported: number; skipped: number }> {
+  async importPokemonFromCsv(
+    csvContent: string,
+  ): Promise<{ imported: number; skipped: number }> {
     return new Promise((resolve, reject) => {
       Papa.parse(csvContent, {
         header: true,
@@ -151,14 +167,14 @@ export class PokemonService {
               try {
                 // Validate and transform data
                 const pokemonData = this.validateAndTransformPokemonData(row);
-                
+
                 // Use upsert to handle duplicates
                 await this.prisma.pokemon.upsert({
                   where: { id: pokemonData.id },
                   update: pokemonData,
                   create: pokemonData,
                 });
-                
+
                 imported++;
               } catch (error) {
                 console.error(`Error importing pokemon ${row.id}:`, error);
@@ -172,7 +188,9 @@ export class PokemonService {
           }
         },
         error: (error) => {
-          reject(new BadRequestException(`CSV parsing error: ${error.message}`));
+          reject(
+            new BadRequestException(`CSV parsing error: ${error.message}`),
+          );
         },
       });
     });
@@ -189,7 +207,10 @@ export class PokemonService {
       id,
       name: String(row.name ?? '').trim(),
       type1: String(row.type1 ?? '').trim(),
-      type2: row.type2 && String(row.type2).trim() !== '' ? String(row.type2).trim() : null,
+      type2:
+        row.type2 && String(row.type2).trim() !== ''
+          ? String(row.type2).trim()
+          : null,
       total: parseInt(row.total) ?? 0,
       hp: parseInt(row.hp) ?? 0,
       attack: parseInt(row.attack) ?? 0,
@@ -199,8 +220,14 @@ export class PokemonService {
       speed: parseInt(row.speed) ?? 0,
       generation: parseInt(row.generation) ?? 1,
       legendary: Boolean(row.legendary === true || row.legendary === 'true'),
-      image: row.image && String(row.image).trim() !== '' ? String(row.image).trim() : null,
-      ytbUrl: row.ytbUrl && String(row.ytbUrl).trim() !== '' ? String(row.ytbUrl).trim() : null,
+      image:
+        row.image && String(row.image).trim() !== ''
+          ? String(row.image).trim()
+          : null,
+      ytbUrl:
+        row.ytbUrl && String(row.ytbUrl).trim() !== ''
+          ? String(row.ytbUrl).trim()
+          : null,
     };
   }
 
@@ -263,7 +290,10 @@ export class PokemonService {
     });
   }
 
-  async getUserFavorites(userId: number, query: GetPokemonListDto): Promise<PaginatedResponse<any>> {
+  async getUserFavorites(
+    userId: number,
+    query: GetPokemonListDto,
+  ): Promise<PaginatedResponse<any>> {
     const { page = 1, limit = 20, sortBy = 'id', sortOrder = 'asc' } = query;
     const skip = (page - 1) * limit;
 
@@ -309,7 +339,7 @@ export class PokemonService {
     const totalPages = Math.ceil(totalItems / limit);
 
     // Extract pokemon data from favorites
-    const pokemon = favorites.map(fav => ({
+    const pokemon = favorites.map((fav) => ({
       ...fav.pokemon,
       favoritedAt: fav.createdAt,
     }));
@@ -339,7 +369,7 @@ export class PokemonService {
     });
 
     const uniqueTypes = new Set<string>();
-    types.forEach(type => {
+    types.forEach((type) => {
       if (type.type1) uniqueTypes.add(type.type1);
       if (type.type2) uniqueTypes.add(type.type2);
     });
