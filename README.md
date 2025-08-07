@@ -1,98 +1,209 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Pokemon Application - Full Stack Project
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A comprehensive Pokemon application built with Angular frontend and NestJS backend, featuring advanced filtering, favorites system, CSV import, and user authentication.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🏗️ Project Overview
 
-## Description
+This is a full-stack application consisting of:
+- **Frontend**: Angular 18 application with SSR, NgRx state management, and Tailwind CSS
+- **Backend**: NestJS API with PostgreSQL database, JWT authentication, and Swagger documentation
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Quick Start
 
-## Project setup
+### Prerequisites
+- Node.js (v18 or higher)
+- PostgreSQL database
+- pnpm package manager
 
-```bash
-$ pnpm install
+### 1. Backend Setup
+```fish
+cd backend
+
+# Install dependencies
+pnpm install
+
+# Setup environment
+cp .env.example .env
+# Edit .env with your database credentials
+
+# Database setup
+pnpm prisma generate
+pnpm prisma migrate dev
+
+# Start backend
+pnpm start:dev
 ```
 
-## Compile and run the project
+### 2. Frontend Setup
+```fish
+cd frontend
 
-```bash
-# development
-$ pnpm run start
+# Install dependencies
+pnpm install
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+# Start frontend
+pnpm start
 ```
 
-## Run tests
+### 3. Access the Application
+- Frontend: http://localhost:4200
+- Backend API: http://localhost:3000
 
-```bash
-# unit tests
-$ pnpm run test
+## 📁 Project Structure
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+```
+IniPod/
+├── backend/                    # NestJS Backend API
+│   ├── src/
+│   │   ├── authentication/     # JWT authentication module
+│   │   ├── pokemon/           # Pokemon CRUD & filtering
+│   │   ├── database/          # Prisma configuration
+│   │   └── common/            # Shared utilities
+│   ├── prisma/                # Database schema & migrations
+│   └── README.md             # Backend documentation
+├── frontend/                  # Angular Frontend
+│   ├── src/app/
+│   │   ├── pages/            # Feature pages
+│   │   ├── services/         # API services
+│   │   ├── shared/           # Shared components
+│   │   └── cores/            # Core services & guards
+│   └── README.md            # Frontend documentation
+└── README.md               # This file
 ```
 
-## Deployment
+## ✨ Features
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Core Features
+- **Pokemon Management**: Complete CRUD operations with advanced filtering
+- **User Authentication**: Secure JWT-based login/register system
+- **Favorites System**: Users can mark/unmark Pokemon as favorites
+- **CSV Import**: Bulk import Pokemon data from CSV files
+- **Advanced Search**: Filter by types, generation, legendary status, speed ranges
+- **Responsive Design**: Mobile-first design with Tailwind CSS
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Technical Highlights
+- **Full-Stack TypeScript**: End-to-end type safety
+- **Modern Architecture**: Angular 18 + NestJS with best practices
+- **State Management**: NgRx for predictable state updates
+- **Database**: PostgreSQL with Prisma ORM
+- **API Documentation**: Comprehensive Swagger documentation
+- **SSR Support**: Angular Universal for better SEO and performance
 
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+## 🔧 Technology Stack
+
+### Frontend
+- **Framework**: Angular 18 with Standalone Components
+- **State Management**: NgRx (Store, Effects, Selectors)
+- **Styling**: Tailwind CSS with responsive design
+- **HTTP Client**: Angular HttpClient with interceptors
+- **Authentication**: JWT tokens with route guards
+- **Build Tool**: Angular CLI with Webpack
+- **SSR**: Angular Universal
+
+### Backend
+- **Framework**: NestJS with TypeScript
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: JWT with Passport.js
+- **Validation**: class-validator and class-transformer
+- **Documentation**: Swagger/OpenAPI
+- **File Upload**: Multer for CSV processing
+- **Testing**: Jest for unit and e2e tests
+
+## 🛡️ Security Features
+
+- JWT token-based authentication
+- Password hashing with bcrypt
+- Request validation with DTOs
+- CORS configuration
+- SQL injection prevention with Prisma
+- XSS protection with sanitization
+- Rate limiting (future enhancement)
+
+## 📊 Database Schema
+
+### Core Tables
+- **Users**: User accounts with authentication
+- **Pokemon**: Complete Pokemon data with stats
+- **UserFavoritePokemon**: Many-to-many relationship for favorites
+
+### Key Relationships
+- Users can have multiple favorite Pokemon
+- Pokemon can be favorited by multiple users
+- Proper indexes for efficient filtering and searching
+
+## 🚀 Deployment
+
+### Development
+```fish
+# Backend (Terminal 1)
+cd backend && pnpm start:dev
+
+# Frontend (Terminal 2)
+cd frontend && pnpm start
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Docker (Future)
+- Multi-stage builds for optimized containers
+- Docker Compose for easy orchestration
+- Environment-specific configurations
 
-## Resources
+## 🧪 Testing
 
-Check out a few resources that may come in handy when working with NestJS:
+### Backend Testing
+```fish
+cd backend
+pnpm test           # Unit tests
+pnpm test:e2e       # End-to-end tests
+pnpm test:cov       # Coverage report
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Frontend Testing
+```fish
+cd frontend
+pnpm test           # Unit tests
+pnpm e2e            # End-to-end tests
+```
 
-## Support
+## 📈 Performance Optimizations
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Frontend
+- Lazy loading for routes
+- OnPush change detection
+- Bundle optimization
+- Image lazy loading
+- Service workers (future)
 
-## Stay in touch
+### Backend
+- Database query optimization
+- Proper indexing
+- Response caching headers
+- Pagination for large datasets
+- Connection pooling
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🔄 Development Workflow
 
-## License
+1. **Feature Development**
+   - Create feature branch
+   - Implement backend API endpoints
+   - Add frontend components and services
+   - Write tests for new features
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+2. **Code Quality**
+   - TypeScript strict mode
+   - ESLint and Prettier configuration
+   - Pre-commit hooks (future)
+   - Code review process
+
+3. **Testing Strategy**
+   - Unit tests for services and components
+   - Integration tests for API endpoints
+   - E2E tests for critical user flows
+
+
+## 🐛 Known Issues & Roadmap
+
+### Current Issues
+- File upload size limits need configuration
+- Error handling could be more granular
+- Loading states need improvement
+
